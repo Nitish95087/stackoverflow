@@ -23,7 +23,7 @@ const Navbar = () => {
 
       <GlobalSearch />
 
-      <div className="flex-between gap-3">
+      <div className="flex-between gap-5">
         <ToggleTheme />
 
         <SignedIn>
