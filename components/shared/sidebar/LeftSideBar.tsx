@@ -21,7 +21,7 @@ const NavContent = () => {
         return (
           <Link
             href={nav.route}
-            className={` flex min-h-[56px] w-full items-center justify-start gap-4 px-4 py-3 ${isActive ? "primary-gradient rounded-lg text-light-900" : "text-dark300_light700"}`}
+            className={` flex min-h-[56px] w-full items-center justify-start gap-4 px-4 py-3  ${isActive ? "primary-gradient rounded-lg text-light-900" : "text-dark300_light700"}`}
             key={nav.route}
           >
             <Image
@@ -31,7 +31,9 @@ const NavContent = () => {
               height={20}
               className={`${!isActive && "invert-color"}`}
             />
-            <p className={`${isActive ? "base-bold" : "base-medium"}`}>
+            <p
+              className={`${isActive ? "base-bold" : "base-medium"} max-md:hidden`}
+            >
               {nav.title}
             </p>
           </Link>
@@ -49,13 +51,31 @@ const LeftSideBar = () => {
         <div className="flex flex-col gap-3">
           <Link href={"/sign-in"}>
             <Button className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3">
-              <span className="primary-text-gradient">Log In</span>
+              <Image
+                src={"/assets/icons/account.svg"}
+                alt="login"
+                width={20}
+                height={20}
+                className="md:hidden"
+              />
+              <span className="primary-text-gradient max-md:hidden">
+                Log In
+              </span>
             </Button>
           </Link>
 
           <Link href={"/sign-up"}>
             <Button className="small-medium btn-tertiary light-border-2 min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
-              <span className="primary-text-gradient">Sign Up</span>
+              <Image
+                src={"/assets/icons/sign-up.svg"}
+                alt="login"
+                width={20}
+                height={20}
+                className="md:hidden"
+              />
+              <span className="primary-text-gradient max-md:hidden">
+                Sign Up
+              </span>
             </Button>
           </Link>
         </div>
