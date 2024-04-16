@@ -20,16 +20,16 @@ const ToggleTheme = () => {
             <Image
               src={"/assets/icons/sun.svg"}
               alt="sun icon"
-              width={30}
-              height={30}
+              width={25}
+              height={25}
               className="active-theme"
             />
           ) : (
             <Image
               src={"/assets/icons/moon.svg"}
               alt="moon icon"
-              width={30}
-              height={30}
+              width={25}
+              height={25}
               className="active-theme"
             />
           )}
