@@ -12,8 +12,8 @@ export const mobileNavs = [
     imgUrl: "/assets/icons/users.svg",
   },
   {
-    title: "Collections",
-    route: "/collections",
+    title: "Collection",
+    route: "/collection",
     imgUrl: "/assets/icons/star.svg",
   },
   {
