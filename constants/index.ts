@@ -18,7 +18,7 @@ export const mobileNavs = [
   },
   {
     title: "Find Jobs",
-    route: "/find-jobs",
+    route: "/jobs",
     imgUrl: "/assets/icons/suitcase.svg",
   },
   { title: "Tags", route: "/tags", imgUrl: "/assets/icons/tag.svg" },
@@ -129,5 +129,50 @@ export const usersCard = [
       { _id: "1", name: "Next.js" },
       { _id: "2", name: "React.js" },
     ],
+  },
+];
+
+export const jobsCard = [
+  {
+    _id: 1,
+    logoUrl: "/assets/images/site-logo.svg",
+    title: "Felony-Friendly Warehouse Workers",
+    description:
+      "Honest Jobs is the largest employment network for people with criminal records. If you have a criminal record",
+    type: "FULLTIME",
+    isOpen: true,
+    siteLink: "https://github.com/Nitish95087/devoverflow",
+    location: {
+      imgUrl: "/assets/images/site-logo.svg",
+      address: "Jharkhand, India",
+    },
+  },
+  {
+    _id: 2,
+    logoUrl: "/assets/images/site-logo.svg",
+    title: "Felony-Friendly Warehouse Workers",
+    description:
+      "Honest Jobs is the largest employment network for people with criminal records. If you have a criminal record",
+    type: "FULLTIME",
+    isOpen: true,
+    siteLink: "https://github.com/Nitish95087/devoverflow",
+    location: {
+      imgUrl: "/assets/images/site-logo.svg",
+      address: "Jharkhand, India",
+    },
+  },
+  {
+    _id: 3,
+    logoUrl: "/assets/images/site-logo.svg",
+    title: "Felony-Friendly Warehouse Workers",
+    description:
+      "Honest Jobs is the largest employment network for people with criminal records. If you have a criminal record",
+    type: "FULLTIME",
+    isOpen: true,
+    siteLink: "https://github.com/Nitish95087/devoverflow",
+    location: {
+      imgUrl: "/assets/images/site-logo.svg",
+      address: "Jharkhand, India",
+    },
   },
 ];
