@@ -29,8 +29,8 @@ const Filter = ({
   return (
     <Select>
       <SelectTrigger
-        className={`${otherClasses} body-regular background-light800_dark300 text-dark400_light500 min-h-[56px] px-5
-         py-2.5 focus-visible:outline-none sm:w-[250px]`}
+        className={`${otherClasses} body-regular background-light800_dark300 text-dark400_light500 min-h-[56px] px-5 py-2.5
+         focus:ring-0 focus:ring-offset-0 focus-visible:outline-none sm:w-[250px]`}
       >
         <div className="line-clamp-1 flex-1  text-left">
           <SelectValue placeholder={trigger} />
