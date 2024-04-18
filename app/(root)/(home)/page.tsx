@@ -29,7 +29,7 @@ const page = () => {
         </div>
 
         <div className="my-5 flex flex-col  gap-3 sm:flex">
-          <LocalSearch />
+          <LocalSearch placeholder="Search questions..." />
           <Filter
             trigger="Select a Filter"
             content={HomePageFilters}
