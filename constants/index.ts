@@ -84,3 +84,50 @@ export const cardQuestions = [
     createdAt: new Date(),
   },
 ];
+
+export const usersCard = [
+  {
+    _id: "1",
+    clerkId: "12123",
+    name: "Nitish",
+    username: "nitish95",
+    picture: "/assets/images/nitish.jpg",
+    tags: [
+      { _id: "1", name: "Next.js" },
+      { _id: "2", name: "React.js" },
+    ],
+  },
+  {
+    _id: "2",
+    clerkId: "12123",
+    name: "Kapil",
+    username: "kapil98",
+    picture: "/assets/images/nitish.jpg",
+    tags: [
+      { _id: "1", name: "Next.js" },
+      { _id: "2", name: "React.js" },
+    ],
+  },
+  {
+    _id: "3",
+    clerkId: "12123",
+    name: "Rahul",
+    username: "rahul",
+    picture: "/assets/images/nitish.jpg",
+    tags: [
+      { _id: "1", name: "Next.js" },
+      { _id: "2", name: "React.js" },
+    ],
+  },
+  {
+    _id: "4",
+    clerkId: "12123",
+    name: "suraj",
+    username: "suraj",
+    picture: "/assets/images/nitish.jpg",
+    tags: [
+      { _id: "1", name: "Next.js" },
+      { _id: "2", name: "React.js" },
+    ],
+  },
+];
