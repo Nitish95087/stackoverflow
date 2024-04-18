@@ -176,3 +176,27 @@ export const jobsCard = [
     },
   },
 ];
+
+export const tagCard = [
+  {
+    id: "1",
+    name: "Next.js",
+    description:
+      "Javascript, often abbreviated as JS, is a programming language that is one of the core technologies of the world wide web, alongside HTML, and CSS",
+    question: 21,
+  },
+  {
+    id: "2",
+    name: "Next.js",
+    description:
+      "Javascript, often abbreviated as JS, is a programming language that is one of the core technologies of the world wide web, alongside HTML, and CSS",
+    question: 21,
+  },
+  {
+    id: "3",
+    name: "Next.js",
+    description:
+      "Javascript, often abbreviated as JS, is a programming language that is one of the core technologies of the world wide web, alongside HTML, and CSS",
+    question: 21,
+  },
+];

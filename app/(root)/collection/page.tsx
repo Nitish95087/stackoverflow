@@ -15,7 +15,7 @@ const Collection = () => {
         </h1>
 
         <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-          <LocalSearch />
+          <LocalSearch placeholder="Search saved questions..." />
           <Filter trigger="Select a Filter" content={QuestionFilters} />
         </div>
       </div>
