@@ -1,5 +1,4 @@
 import TagCard from "@/components/card/TagCard";
-import UserCard from "@/components/card/UserCard";
 import Filter from "@/components/shared/Filter";
 import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
