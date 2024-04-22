@@ -2,11 +2,16 @@ import React from "react";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Question from "@/components/form/Question";
+import { getUserById } from "@/lib/action/user.action";
 
 const AskQuestion = () => {
   const { userId } = auth();
 
   if (!userId) redirect("/sign-in");
+
+  const mongoUser = getUserById({ userId });
+
+  console.log(mongoUser);
 
   return (
     <div>
