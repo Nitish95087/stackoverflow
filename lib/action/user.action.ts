@@ -13,6 +13,8 @@ export const createUser = async (params: CreateUserParams) => {
   try {
     connectToDB();
 
+    console.log("Created User", params);
+
     const newUser = await User.create(params);
 
     return newUser;
@@ -25,6 +27,8 @@ export const createUser = async (params: CreateUserParams) => {
 export const updateUser = async (params: UpdateUserParams) => {
   try {
     connectToDB();
+
+    console.log("Upated User", params);
 
     const { clerkId, updatedData, path } = params;
 
