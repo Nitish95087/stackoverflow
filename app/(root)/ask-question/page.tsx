@@ -4,14 +4,16 @@ import { redirect } from "next/navigation";
 import Question from "@/components/form/Question";
 import { getUserById } from "@/lib/action/user.action";
 
-const AskQuestion = () => {
+const AskQuestion = async () => {
   const { userId } = auth();
 
   if (!userId) redirect("/sign-in");
 
-  const mongoUser = getUserById({ userId });
+  console.log(userId);
 
-  console.log(mongoUser);
+  const mongoUser = await getUserById({ userId });
+
+  console.log("MongoUser", mongoUser);
 
   return (
     <div>
