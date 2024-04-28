@@ -10,13 +10,14 @@ export const createQuestion = async (params: createQuestionParams) => {
     // connect to database
     await connectToDB();
 
-    const { title, content, tags, path } = params;
+    const { title, content, tags, author, path } = params;
 
     // create question
 
     const question = await Question.create({
       title,
       content,
+      author,
     });
 
     const tagDocuments = [];

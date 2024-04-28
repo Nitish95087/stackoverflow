@@ -21,7 +21,7 @@ import useTheme from "@/context/ThemeProvider";
 import { createQuestion } from "@/lib/action/question.action";
 import { usePathname, useRouter } from "next/navigation";
 
-const Question = () => {
+const Question = ({ author }: any) => {
   const { mode } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
@@ -46,6 +46,7 @@ const Question = () => {
         content: values.explanation,
         tags: values.tags,
         path: pathname,
+        author: JSON.parse(author),
       });
 
       router.push("/");
