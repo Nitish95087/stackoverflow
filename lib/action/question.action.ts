@@ -31,9 +31,13 @@ export const createQuestion = async (params: createQuestionParams) => {
       tagDocuments.push(existingTag._id);
     }
 
+    // Note: Here is some bug related to tag array
+    // console.log("QuestionId:", question._id, "TagDocument:", tagDocuments);
     await Question.findByIdAndUpdate(question._id, {
-      $push: { $tags: { $each: tagDocuments } },
+      $push: { tags: { $each: tagDocuments } },
     });
+
+    // console.log(updatedQuestion);
 
     revalidatePath(path);
   } catch (error) {
