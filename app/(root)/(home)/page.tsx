@@ -4,12 +4,14 @@ import PaginationCard from "@/components/shared/PaginationCard";
 import RenderTag from "@/components/shared/RenderTag";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { Button } from "@/components/ui/button";
-import { cardQuestions } from "@/constants";
 import { HomePageFilters } from "@/constants/filters";
+import { getAllQuestion } from "@/lib/action/question.action";
 import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const page = async () => {
+  const cardQuestions = await getAllQuestion();
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
@@ -44,19 +46,22 @@ const page = () => {
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        {cardQuestions.map((item) => (
-          <QuestionCard
-            key={item._id}
-            _id={item._id}
-            title={item.title}
-            tags={item.tags}
-            author={item.author}
-            upvotes={item.upvotes}
-            views={item.views}
-            answers={item.answers}
-            createdAt={item.createdAt}
-          />
-        ))}
+        {cardQuestions.map((item) => {
+          console.log(item);
+          return (
+            <QuestionCard
+              key={item._id}
+              _id={item._id}
+              title={item.title}
+              tags={item.tags}
+              author={item.author}
+              upvotes={item.upvotes}
+              views={item.views}
+              answers={item.answers}
+              createdAt={item.createdAt}
+            />
+          );
+        })}
       </div>
 
       <PaginationCard />

@@ -1,6 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
 interface MetricProps {
   imgUrl: string;
@@ -25,18 +26,13 @@ const Metrix = ({
 }: MetricProps) => {
   const metricContent = (
     <>
-      {!dot ? (
-        <Image
-          src={imgUrl}
-          alt={alt}
-          width={16}
-          height={16}
-          className={`rounded-[50%] object-contain`}
-        />
+      {isAuthor ? (
+        <Avatar>
+          <AvatarImage src={imgUrl} />
+          {/* <AvatarFallback>{alt.slice(0, 2)}</AvatarFallback> */}
+        </Avatar>
       ) : (
-        <span className="base-medium text-light400_light500 max-sm:hidden ">
-          .
-        </span>
+        <Image src={imgUrl} alt={alt} width={20} height={20} />
       )}
       <p className={`${textStyles} flex items-center gap-1`}>
         {value}

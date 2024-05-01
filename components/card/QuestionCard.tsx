@@ -1,6 +1,7 @@
 import React from "react";
 import RenderTag from "../shared/RenderTag";
 import Metrix from "../shared/Metrix";
+import { getTimeAgo } from "@/lib/action/utils";
 
 interface QuestionProps {
   _id: string;
@@ -15,9 +16,9 @@ interface QuestionProps {
     picture: string;
     clerkId: string;
   };
-  upvotes: number;
+  upvotes: string[];
   views: number;
-  answers: number;
+  answers: string[];
   createdAt: Date;
   clerkId?: string | null | undefined;
 }
@@ -39,19 +40,23 @@ const QuestionCard = ({
         {title}
       </h2>
       <div className="flex items-center justify-start gap-5">
-        {tags.map((item) => (
-          <RenderTag key={item._id} tag={item.name} />
-        ))}
+        {tags.length > 0 && (
+          <>
+            {tags.map((item) => (
+              <RenderTag key={item._id} tag={item.name} />
+            ))}
+          </>
+        )}
       </div>
 
       <div className="flex items-center justify-between">
         <Metrix
-          imgUrl={author.picture}
-          alt={author.name}
-          value={"Nitish"}
-          title={"- asked 1 hour ago"}
+          imgUrl={author?.picture}
+          alt={author?.name}
+          value={author?.name}
+          title={getTimeAgo(createdAt)}
           isAuthor={true}
-          href="/profile/123"
+          href={`/profile/${author?.clerkId}`}
           textStyles="text-dark200_light900 body-regular"
         />
 
@@ -59,15 +64,17 @@ const QuestionCard = ({
           <Metrix
             imgUrl="/assets/icons/like.svg"
             alt="like"
-            value={upvotes}
+            value={upvotes.length}
             title="Votes"
+            isAuthor={false}
             textStyles="text-dark200_light900 body-regular"
           />
           <Metrix
             imgUrl="/assets/icons/message.svg"
             alt="answer"
-            value={answers}
-            title={answers === 1 ? "Answer" : "Answers"}
+            value={answers.length}
+            title={answers.length === 1 ? "Answer" : "Answers"}
+            isAuthor={false}
             textStyles="text-dark200_light900 body-regular"
           />
           <Metrix
@@ -75,6 +82,7 @@ const QuestionCard = ({
             alt="view"
             value={views}
             title="Votes"
+            isAuthor={false}
             textStyles="text-dark200_light900 body-regular"
           />
         </div>

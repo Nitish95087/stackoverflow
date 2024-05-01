@@ -4,6 +4,7 @@ import { connectToDB } from "../mongoose";
 import { createQuestionParams } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import Tag from "@/database/tag.model";
+import User from "@/database/user.model";
 
 export const createQuestion = async (params: createQuestionParams) => {
   try {
@@ -35,6 +36,21 @@ export const createQuestion = async (params: createQuestionParams) => {
     });
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getAllQuestion = async () => {
+  try {
+    await connectToDB();
+
+    const allQuestion = Question.find()
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User });
+
+    return allQuestion;
   } catch (error) {
     console.log(error);
     throw error;
