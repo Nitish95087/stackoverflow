@@ -1,15 +1,74 @@
 "use server";
 import User from "@/database/user.model";
 import { connectToDB } from "../mongoose";
-import { CreateUserParams } from "./shared.types";
+import {
+  CreateUserParams,
+  DeleteUserParams,
+  GetUserByIdParams,
+  UpdateUserParams,
+} from "./shared.types";
+import { revalidatePath } from "next/cache";
 
-export const createUser = (parmas: CreateUserParams) => {
+export const createUser = async (params: CreateUserParams) => {
   try {
-    connectToDB();
+    await connectToDB();
 
-    const newUser = User.create(parmas);
+    const newUser = await User.create(params);
 
     return newUser;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateUser = async (params: UpdateUserParams) => {
+  try {
+    await connectToDB();
+
+    console.log("Upated User", params);
+
+    const { clerkId, updatedData, path } = params;
+
+    await User.findOneAndUpdate({ clerkId }, updatedData, { new: true });
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteUser = async (params: DeleteUserParams) => {
+  try {
+    await connectToDB();
+
+    const { clerkId } = params;
+
+    const user = await User.findOneAndDelete({ clerkId });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Task:
+    // delete everything from database
+    // delete questions, answers, comment and son on
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getUserById = async (params: GetUserByIdParams) => {
+  try {
+    await connectToDB();
+
+    const { userId } = params;
+
+    const mongoUser = await User.findOne({ clerkId: userId });
+
+    return mongoUser;
   } catch (error) {
     console.log(error);
     throw error;
