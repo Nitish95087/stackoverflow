@@ -2,11 +2,13 @@ import UserCard from "@/components/card/UserCard";
 import Filter from "@/components/shared/Filter";
 import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
-import { usersCard } from "@/constants";
 import { UserFilters } from "@/constants/filters";
+import { getAllUser } from "@/lib/action/user.action";
 import React from "react";
 
-const Community = () => {
+const Community = async () => {
+  const usersCard = await getAllUser();
+
   return (
     <div className="flex flex-col gap-3">
       <h1 className="h2-bold sm:h1-bold text-dark100_light900">Users</h1>
@@ -25,7 +27,6 @@ const Community = () => {
             name={item.name}
             username={item.username}
             picture={item.picture}
-            tags={item.tags}
           />
         ))}
       </div>

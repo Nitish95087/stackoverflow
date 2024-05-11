@@ -2,11 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import RenderTag from "../shared/RenderTag";
-
-interface tag {
-  _id: string;
-  name: string;
-}
+import { getTopUserTag } from "@/lib/action/user.action";
 
 interface Props {
   _id: string;
@@ -14,10 +10,11 @@ interface Props {
   name: string;
   username: string;
   picture: string;
-  tags: tag[];
 }
 
-const UserCard = ({ _id, clerkId, name, username, picture, tags }: Props) => {
+const UserCard = async ({ _id, clerkId, name, username, picture }: Props) => {
+  const tags = await getTopUserTag();
+
   return (
     <Link
       href={`/profile/${clerkId}`}
@@ -34,9 +31,7 @@ const UserCard = ({ _id, clerkId, name, username, picture, tags }: Props) => {
       <p className="body-regular text-dark500_light500">@{username}</p>
 
       <div className="flex flex-wrap items-center gap-2">
-        {tags.map((tag) => (
-          <RenderTag key={tag._id} tag={tag.name} />
-        ))}
+        {tags && tags.map((tag) => <RenderTag key={tag._id} tag={tag.name} />)}
       </div>
     </Link>
   );

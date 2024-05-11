@@ -2,11 +2,13 @@ import TagCard from "@/components/card/TagCard";
 import Filter from "@/components/shared/Filter";
 import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
-import { tagCard } from "@/constants";
 import { TagsFilter } from "@/constants/filters";
+import { getAllTag } from "@/lib/action/tag.action";
 import React from "react";
 
-const Tags = () => {
+const Tags = async () => {
+  const tagCard = await getAllTag();
+
   return (
     <div className="flex flex-col gap-3">
       <h1 className="h2-bold sm:h1-bold text-dark100_light900">Tags</h1>
@@ -22,8 +24,10 @@ const Tags = () => {
             key={item.id}
             id={item.id}
             name={item.name}
-            questions={item.question}
-            description={item.description}
+            questions={item.questions.length}
+            description={
+              "Javascript, often abbreviated as JS, is a programming language that is one of the core technologies of the world wide web, alongside HTML, and CSS"
+            }
           />
         ))}
       </div>

@@ -2,11 +2,19 @@ import QuestionCard from "@/components/card/QuestionCard";
 import Filter from "@/components/shared/Filter";
 import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
-import { cardQuestions } from "@/constants";
+// import { cardQuestions } from "@/constants";
 import { QuestionFilters } from "@/constants/filters";
+import { getSavedQuestions } from "@/lib/action/user.action";
+import { auth } from "@clerk/nextjs";
 import React from "react";
 
-const Collection = () => {
+const Collection = async () => {
+  const { userId } = auth();
+
+  const savedQuestions = await getSavedQuestions({ userId });
+
+  console.log(savedQuestions);
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
@@ -20,7 +28,7 @@ const Collection = () => {
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        {cardQuestions.map((item) => (
+        {savedQuestions.saved.map((item: any) => (
           <QuestionCard
             key={item._id}
             _id={item._id}

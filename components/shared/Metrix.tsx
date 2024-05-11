@@ -1,6 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
 interface MetricProps {
   imgUrl: string;
@@ -9,8 +10,7 @@ interface MetricProps {
   title: string;
   href?: string;
   textStyles?: string;
-  isAuthor?: boolean;
-  dot?: boolean;
+  isAuthor: boolean;
 }
 
 const Metrix = ({
@@ -21,30 +21,20 @@ const Metrix = ({
   href,
   textStyles,
   isAuthor,
-  dot,
 }: MetricProps) => {
   const metricContent = (
     <>
-      {!dot ? (
-        <Image
-          src={imgUrl}
-          alt={alt}
-          width={16}
-          height={16}
-          className={`rounded-[50%] object-contain`}
-        />
+      {isAuthor ? (
+        <Avatar className="size-7">
+          <AvatarImage src={imgUrl} />
+          <AvatarFallback>{alt.slice(0, 2)}</AvatarFallback>
+        </Avatar>
       ) : (
-        <span className="base-medium text-light400_light500 max-sm:hidden ">
-          .
-        </span>
+        <Image src={imgUrl} alt={alt} width={20} height={20} />
       )}
       <p className={`${textStyles} flex items-center gap-1`}>
         {value}
-        <span
-          className={`small-regular line-clamp-1  ${isAuthor ? "max-sm:hidden" : ""}`}
-        >
-          {title}
-        </span>
+        <span className={` line-clamp-1`}>{title}</span>
       </p>
     </>
   );

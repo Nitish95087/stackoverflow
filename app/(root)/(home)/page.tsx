@@ -1,15 +1,18 @@
 import QuestionCard from "@/components/card/QuestionCard";
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import PaginationCard from "@/components/shared/PaginationCard";
-import RenderTag from "@/components/shared/RenderTag";
+import RenderFilter from "@/components/shared/RenderFilter";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { Button } from "@/components/ui/button";
-import { cardQuestions } from "@/constants";
 import { HomePageFilters } from "@/constants/filters";
+import { getAllQuestion } from "@/lib/action/question.action";
 import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const page = async () => {
+  const cardQuestions = await getAllQuestion();
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
@@ -37,26 +40,37 @@ const page = () => {
           />
         </div>
 
-        <div className="flex items-center justify-start gap-5 max-md:hidden">
-          {HomePageFilters.map((item) => (
-            <RenderTag key={item.id} tag={item.label} />
-          ))}
-        </div>
+        <RenderFilter />
       </div>
-      <div className="flex flex-col gap-5">
-        {cardQuestions.map((item) => (
-          <QuestionCard
-            key={item._id}
-            _id={item._id}
-            title={item.title}
-            tags={item.tags}
-            author={item.author}
-            upvotes={item.upvotes}
-            views={item.views}
-            answers={item.answers}
-            createdAt={item.createdAt}
-          />
-        ))}
+      <div className="">
+        {cardQuestions.length > 0 ? (
+          <div className="flex flex-col gap-5">
+            {cardQuestions.map((item) => {
+              return (
+                <QuestionCard
+                  key={item._id}
+                  _id={item._id}
+                  title={item.title}
+                  tags={item.tags}
+                  author={item.author}
+                  upvotes={item.upvotes}
+                  views={item.views}
+                  answers={item.answers}
+                  createdAt={item.createdAt}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex w-full items-center justify-center">
+            <NoResult
+              title="There&rsquo;s no question to show"
+              description="Be the first to break the silence 🚀 Ask a question and start discussion Our query could be next big thing other learn from Get Involve"
+              link="/ask-question"
+              linkTitle="Ask a Question"
+            />
+          </div>
+        )}
       </div>
 
       <PaginationCard />
