@@ -1,3 +1,6 @@
+import qs from "query-string";
+import { UrlQueryParams } from "./shared.types";
+
 export function getTimeAgo(joined: Date): string {
   const now = new Date();
   const diff = now.getTime() - joined.getTime();
@@ -24,4 +27,50 @@ export function getTimeAgo(joined: Date): string {
   } else {
     return `- asked ${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
   }
+}
+
+export function formatNumber(number: number): string {
+  if (number >= 1000000) {
+    return `${(number / 1000000).toFixed(2)}M`;
+  } else if (number >= 1000) {
+    return `${(number / 1000).toFixed(2)}K`;
+  } else {
+    return `${number}`;
+  }
+}
+
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    {
+      skipNull: true,
+    }
+  );
+};
+
+export function formatJoinedDate(date: Date): string {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `Joined ${month} ${year}`;
 }

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -26,6 +26,8 @@ const Question = ({ author }: any) => {
   const pathname = usePathname();
   const router = useRouter();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // const editorRef = useRef(null);
 
   // 1. Define your form.
@@ -40,8 +42,9 @@ const Question = ({ author }: any) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof questionSchema>) {
+    setIsSubmitting(true);
     try {
-      createQuestion({
+      await createQuestion({
         title: values.title,
         content: values.explanation,
         tags: values.tags,
@@ -53,7 +56,11 @@ const Question = ({ author }: any) => {
     } catch (error) {
       console.log(error);
       throw error;
+    } finally {
+      setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
   }
 
   const handleInputKeyDown = (
@@ -229,8 +236,9 @@ const Question = ({ author }: any) => {
           <Button
             type="submit"
             className="primary-gradient w-fit !text-light-900"
+            disabled={isSubmitting}
           >
-            Submit
+            {isSubmitting ? "Submiting" : "Submit"}
           </Button>
         </form>
       </Form>

@@ -10,6 +10,19 @@ interface Props {
 }
 
 const TagCard = ({ id, name, questions, description }: Props) => {
+
+  let totalQuestion:number | string;
+
+  if(questions >= 10000){
+   totalQuestion = "10k";
+  }else if(questions >= 1000){
+    totalQuestion = "1k";
+  }if(questions >= 500){
+   totalQuestion = "500";
+  }else {
+    totalQuestion = questions;
+  }
+
   return (
     <Link
       href={`/tags/${id}`}
@@ -20,7 +33,7 @@ const TagCard = ({ id, name, questions, description }: Props) => {
       <p className="small-regular text-dark400_light700">{description}</p>
 
       <p className="small-medium text-dark400_light500">
-        <span className="text-primary-500">{questions}+</span> Questions
+        <span className="text-primary-500">{totalQuestion}+</span> Questions
       </p>
     </Link>
   );

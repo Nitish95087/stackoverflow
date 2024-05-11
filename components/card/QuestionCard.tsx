@@ -1,7 +1,8 @@
 import React from "react";
 import RenderTag from "../shared/RenderTag";
 import Metrix from "../shared/Metrix";
-import { getTimeAgo } from "@/lib/action/utils";
+import { formatNumber, getTimeAgo } from "@/lib/action/utils";
+import Link from "next/link";
 
 interface QuestionProps {
   _id: string;
@@ -36,9 +37,11 @@ const QuestionCard = ({
 }: QuestionProps) => {
   return (
     <div className="background-light900_dark200 flex flex-col gap-3 rounded-xl px-10 py-9">
-      <h2 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
-        {title}
-      </h2>
+      <Link href={`/question/${_id}`}>
+        <h2 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
+          {title}
+        </h2>
+      </Link>
       <div className="flex items-center justify-start gap-5">
         {tags.length > 0 && (
           <>
@@ -49,7 +52,7 @@ const QuestionCard = ({
         )}
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-start justify-between gap-2">
         <Metrix
           imgUrl={author?.picture}
           alt={author?.name}
@@ -60,11 +63,11 @@ const QuestionCard = ({
           textStyles="text-dark200_light900 body-regular"
         />
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex  items-center gap-3">
           <Metrix
             imgUrl="/assets/icons/like.svg"
             alt="like"
-            value={upvotes.length}
+            value={formatNumber(upvotes.length)}
             title="Votes"
             isAuthor={false}
             textStyles="text-dark200_light900 body-regular"
@@ -72,7 +75,7 @@ const QuestionCard = ({
           <Metrix
             imgUrl="/assets/icons/message.svg"
             alt="answer"
-            value={answers.length}
+            value={formatNumber(answers.length)}
             title={answers.length === 1 ? "Answer" : "Answers"}
             isAuthor={false}
             textStyles="text-dark200_light900 body-regular"
@@ -80,7 +83,7 @@ const QuestionCard = ({
           <Metrix
             imgUrl="/assets/icons/eye.svg"
             alt="view"
-            value={views}
+            value={formatNumber(views || 0)}
             title="Votes"
             isAuthor={false}
             textStyles="text-dark200_light900 body-regular"

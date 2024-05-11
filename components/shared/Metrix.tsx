@@ -10,8 +10,7 @@ interface MetricProps {
   title: string;
   href?: string;
   textStyles?: string;
-  isAuthor?: boolean;
-  dot?: boolean;
+  isAuthor: boolean;
 }
 
 const Metrix = ({
@@ -22,25 +21,20 @@ const Metrix = ({
   href,
   textStyles,
   isAuthor,
-  dot,
 }: MetricProps) => {
   const metricContent = (
     <>
       {isAuthor ? (
-        <Avatar>
+        <Avatar className="size-7">
           <AvatarImage src={imgUrl} />
-          {/* <AvatarFallback>{alt.slice(0, 2)}</AvatarFallback> */}
+          <AvatarFallback>{alt.slice(0, 2)}</AvatarFallback>
         </Avatar>
       ) : (
         <Image src={imgUrl} alt={alt} width={20} height={20} />
       )}
       <p className={`${textStyles} flex items-center gap-1`}>
         {value}
-        <span
-          className={`small-regular line-clamp-1  ${isAuthor ? "max-sm:hidden" : ""}`}
-        >
-          {title}
-        </span>
+        <span className={` line-clamp-1`}>{title}</span>
       </p>
     </>
   );

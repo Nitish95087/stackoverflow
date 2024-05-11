@@ -81,7 +81,7 @@ body {
     -webkit-text-fill-color: transparent;
   }
 
-  .custom-scrollbar::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     width: 3px;
     height: 3px;
     border-radius: 2px;
@@ -107,21 +107,16 @@ body {
 
   .markdown a,
   code {
-    /* These are technically the same, but use both */
     overflow-wrap: break-word;
     word-wrap: break-word;
     -ms-word-break: break-all;
-    /* This is the dangerous one in WebKit, as it breaks things whereve
-    word-break: break-all;
-    /* Instead use this non-standard one: */
     word-break: break-word;
-    /* Adds a hyphen where the word breaks, if supported (No Blink) *
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
     padding: 2px;
-    color: #ff7000 !important; */
+    color: #ff7000 !important;
   }
 
   .markdown pre {
