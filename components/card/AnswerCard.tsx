@@ -24,9 +24,9 @@ const AnswerCard = ({
   createdAt,
 }: AnswerCardProps) => {
   return (
-    <div className="background-light900_dark200 flex flex-col gap-3 rounded-xl px-10 py-9">
+    <div className="background-light900_dark200 flex flex-col gap-3 rounded-xl px-5 py-4 md:px-10 md:py-9">
       <Link href={`/question/${_id}`}>
-        <h2 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
+        <h2 className="sm:h3-semibold base-semibold text-dark200_light900  flex-1">
           {title}
         </h2>
       </Link>

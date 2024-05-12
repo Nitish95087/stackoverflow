@@ -18,7 +18,7 @@ const AllAnswers = async (params: AllAnswerProps) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <p className="primary-text-gradient">
           {answers.length > 1
             ? `${answers.length} Answers`

@@ -4,9 +4,10 @@ import React from "react";
 import GlobalSearch from "../search/GlobalSearch";
 import ToggleTheme from "../ToggleTheme";
 import MobileNav from "./MobileNav";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 
 const Navbar = () => {
+  const { userId } = auth();
   return (
     <nav className="background-light900_dark200 flex-between fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12 ">
       <Link href={"/"} className="flex gap-1">
@@ -26,21 +27,7 @@ const Navbar = () => {
       <div className="flex-between gap-5">
         <ToggleTheme />
 
-        <SignedIn>
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                avatarBox: "h-10 w-10",
-              },
-              variables: {
-                colorPrimary: "#ff7000",
-              },
-            }}
-          />
-        </SignedIn>
-
-        <MobileNav />
+        <MobileNav userId={userId} />
       </div>
     </nav>
   );
