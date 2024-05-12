@@ -8,7 +8,7 @@ interface Props {
 
 const LocalSearch = ({ placeholder }: Props) => {
   return (
-    <div className="background-light800_darkgradient relative flex min-h-[56px] grow items-center gap-4 rounded-xl px-4 shadow-light-300 dark:shadow-none">
+    <div className="background-light800_darkgradient relative flex min-h-[56px] flex-1 items-center gap-4 rounded-xl px-4 shadow-light-300 dark:shadow-none">
       <Image
         src={"/assets/icons/search.svg"}
         alt="search"

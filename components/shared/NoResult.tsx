@@ -32,7 +32,7 @@ const NoResult = ({ title, description, link, linkTitle }: Props) => {
         {description}
       </p>
       {link && linkTitle && (
-        <Link href={linkTitle}>
+        <Link href={link}>
           <Button className="">{linkTitle}</Button>
         </Link>
       )}

@@ -97,7 +97,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
         userId={mongoUser?._id}
       />
 
-      <hr className="border border-gray-700" />
+      {/* <hr className="border border-gray-700" /> */}
 
       <Answer
         questionId={JSON.stringify(questionDetail._id)}

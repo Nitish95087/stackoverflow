@@ -1,5 +1,6 @@
 import TagCard from "@/components/card/TagCard";
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { TagsFilter } from "@/constants/filters";
@@ -18,19 +19,28 @@ const Tags = async () => {
         <Filter trigger="Select a Filter" content={TagsFilter} />
       </div>
 
-      <div className="my-5 grid w-full grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-3">
-        {tagCard.map((item) => (
-          <TagCard
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            questions={item.questions.length}
-            description={
-              "Javascript, often abbreviated as JS, is a programming language that is one of the core technologies of the world wide web, alongside HTML, and CSS"
-            }
+      {tagCard.length > 0 ? (
+        <div className="my-5 grid w-full grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-3">
+          {tagCard.map((item) => (
+            <TagCard
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              questions={item.questions.length}
+              description={
+                "Javascript, often abbreviated as JS, is a programming language that is one of the core technologies of the world wide web, alongside HTML, and CSS"
+              }
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex w-full items-center justify-center">
+          <NoResult
+            title="There&rsquo;s no tags to show"
+            description="Be the first to break the silence 🚀 Ask a question and start discussion Our query could be next big thing other learn from Get Involve"
           />
-        ))}
-      </div>
+        </div>
+      )}
 
       <PaginationCard />
     </div>

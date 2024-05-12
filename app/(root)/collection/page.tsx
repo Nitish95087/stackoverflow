@@ -1,5 +1,6 @@
 import QuestionCard from "@/components/card/QuestionCard";
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 // import { cardQuestions } from "@/constants";
@@ -27,21 +28,30 @@ const Collection = async () => {
           <Filter trigger="Select a Filter" content={QuestionFilters} />
         </div>
       </div>
-      <div className="flex flex-col gap-5">
-        {savedQuestions.saved.map((item: any) => (
-          <QuestionCard
-            key={item._id}
-            _id={item._id}
-            title={item.title}
-            tags={item.tags}
-            author={item.author}
-            upvotes={item.upvotes}
-            views={item.views}
-            answers={item.answers}
-            createdAt={item.createdAt}
+      {savedQuestions.saved.length > 0 ? (
+        <div className="flex flex-col gap-5">
+          {savedQuestions.saved.map((item: any) => (
+            <QuestionCard
+              key={item._id}
+              _id={item._id}
+              title={item.title}
+              tags={item.tags}
+              author={item.author}
+              upvotes={item.upvotes}
+              views={item.views}
+              answers={item.answers}
+              createdAt={item.createdAt}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex w-full items-center justify-center">
+          <NoResult
+            title="There&rsquo;s no saved question"
+            description="To see saved question start saving questions"
           />
-        ))}
-      </div>
+        </div>
+      )}
 
       <PaginationCard />
     </div>
