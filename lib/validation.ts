@@ -11,3 +11,11 @@ export const answerSchema = z.object({
     .string()
     .min(10, { message: "Answer must be at least of 10 character" }),
 });
+
+export const editUserSchema = z.object({
+  fullname: z.string().min(2).max(50),
+  username: z.string().min(2).max(50),
+  portfolioLink: z.string(),
+  location: z.string().min(2).max(50),
+  bio: z.string().min(10),
+});

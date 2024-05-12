@@ -15,7 +15,10 @@ const Community = async () => {
       <h1 className="h2-bold sm:h1-bold text-dark100_light900">Users</h1>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch placeholder="Search amazing mind here..." />
+        <LocalSearch
+          placeholder="Search amazing mind here..."
+          route="/community"
+        />
         <Filter trigger="Select a Filter" content={UserFilters} />
       </div>
 

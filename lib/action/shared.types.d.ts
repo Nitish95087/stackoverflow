@@ -22,8 +22,11 @@ export interface UpdateUserParams {
   updatedData: {
     name: string;
     username: string;
-    email: string;
-    picture: string;
+    email?: string;
+    picture?: string;
+    portfolioLink?: string;
+    location?: string;
+    bio?: string;
   };
   path: string;
 }

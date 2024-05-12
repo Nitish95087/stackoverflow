@@ -12,7 +12,10 @@ const Jobs = () => {
       <h1 className="h2-bold sm:h1-bold text-dark100_light900">Jobs</h1>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch placeholder="Job Title, Company or keywords" />
+        <LocalSearch
+          placeholder="Job Title, Company or keywords"
+          route="/jobs"
+        />
         <Filter trigger="Select a Filter" content={UserFilters} />
       </div>
 

@@ -24,7 +24,10 @@ const Collection = async () => {
         </h1>
 
         <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-          <LocalSearch placeholder="Search saved questions..." />
+          <LocalSearch
+            placeholder="Search saved questions..."
+            route="/collection"
+          />
           <Filter trigger="Select a Filter" content={QuestionFilters} />
         </div>
       </div>

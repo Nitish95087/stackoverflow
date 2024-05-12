@@ -15,7 +15,7 @@ const Tags = async () => {
       <h1 className="h2-bold sm:h1-bold text-dark100_light900">Tags</h1>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch placeholder="Search by tag name" />
+        <LocalSearch placeholder="Search by tag name" route="/tags" />
         <Filter trigger="Select a Filter" content={TagsFilter} />
       </div>
 

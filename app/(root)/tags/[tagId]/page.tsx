@@ -10,7 +10,10 @@ const page = async ({ params }: { params: any }) => {
     <div className="flex flex-col gap-5">
       <h1 className="h1-bold text-dark100_light900 text-left">{tag.name}</h1>
 
-      <LocalSearch placeholder="Search tag question..." />
+      <LocalSearch
+        placeholder="Search tag question..."
+        route={`/tags/${params.tagId}`}
+      />
 
       <div className="mt-4 flex flex-col gap-6">
         {tag.questions.map((question: any) => (

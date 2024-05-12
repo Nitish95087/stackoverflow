@@ -32,7 +32,7 @@ const page = async () => {
         </div>
 
         <div className="my-5 flex flex-col  gap-3 sm:flex">
-          <LocalSearch placeholder="Search questions..." />
+          <LocalSearch placeholder="Search questions..." route="/" />
           <Filter
             trigger="Select a Filter"
             content={HomePageFilters}

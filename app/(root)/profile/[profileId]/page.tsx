@@ -5,20 +5,30 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getUserById } from "@/lib/action/user.action";
 import { formatJoinedDate } from "@/lib/action/utils";
+import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const page = async ({ params }: { params: any }) => {
   const user = await getUserById({ userId: params.profileId });
+  const { userId } = auth();
 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col items-start gap-5 md:flex-row">
-        <Avatar className="size-28">
-          <AvatarImage src={user?.picture} />
-          <AvatarFallback>{user?.name.slice(0, 2)}</AvatarFallback>
-        </Avatar>
+        <div className="flex w-full items-start justify-between md:w-auto">
+          <Avatar className="size-28">
+            <AvatarImage src={user?.picture} />
+            <AvatarFallback>{user?.name.slice(0, 2)}</AvatarFallback>
+          </Avatar>
+
+          {userId === params.profileId && (
+            <Link href={"/profile/edit"}>
+              <Button className="md:hidden">Edit Profile</Button>
+            </Link>
+          )}
+        </div>
 
         <div className="flex w-full flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -28,7 +38,11 @@ const page = async ({ params }: { params: any }) => {
                 @{user?.username}
               </p>
             </div>
-            <Button className="hidden md:block">Edit Profile</Button>
+            {userId === params.profileId && (
+              <Link href={"/profile/edit"}>
+                <Button className="hidden md:block">Edit Profile</Button>
+              </Link>
+            )}
           </div>
 
           <div className="flex flex-1 flex-wrap items-center justify-start gap-3">
@@ -40,7 +54,9 @@ const page = async ({ params }: { params: any }) => {
                   width={20}
                   height={20}
                 />
-                <Link href={user.portfolioLink}>Portfolio</Link>
+                <Link href={user.portfolioLink} target="_blank">
+                  Portfolio
+                </Link>
               </div>
             )}
             {user?.location && (
@@ -104,7 +120,7 @@ const page = async ({ params }: { params: any }) => {
 
       <div className="flex w-full items-start justify-between">
         <div className="w-full xl:w-3/5">
-          <Tab userId={JSON.stringify(user._id)} />
+          <Tab userId={JSON.stringify(user?._id)} />
         </div>
         <div className="hidden xl:ml-2 xl:block xl:w-2/5">
           <TopTag />
