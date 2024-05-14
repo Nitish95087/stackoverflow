@@ -45,7 +45,7 @@ const QuestionCard = ({
             {title}
           </h2>
         </Link>
-        {isAuthor && <EditDeletePost id={_id} />}
+        {isAuthor && <EditDeletePost id={_id} type="Question" />}
       </div>
 
       <div className="flex flex-wrap items-center justify-start gap-5">
