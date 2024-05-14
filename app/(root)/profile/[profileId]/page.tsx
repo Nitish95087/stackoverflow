@@ -13,7 +13,6 @@ import React from "react";
 const page = async ({ params }: { params: any }) => {
   const user = await getUserById({ userId: params.profileId });
   const { userId } = auth();
-
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col items-start gap-5 md:flex-row">
@@ -119,10 +118,10 @@ const page = async ({ params }: { params: any }) => {
       </div>
 
       <div className="flex w-full items-start justify-between">
-        <div className="w-full xl:w-3/5">
-          <Tab userId={JSON.stringify(user?._id)} />
+        <div className="w-full xl:w-[70%]">
+          <Tab authorId={user._id} isAuthor={userId === user.clerkId} />
         </div>
-        <div className="hidden xl:ml-2 xl:block xl:w-2/5">
+        <div className="hidden xl:ml-5 xl:block xl:w-[30%]">
           <TopTag />
         </div>
       </div>

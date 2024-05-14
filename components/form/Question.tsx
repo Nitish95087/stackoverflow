@@ -18,10 +18,18 @@ import { questionSchema } from "@/lib/validation";
 import TagButton from "../shared/TagButton";
 import { Editor } from "@tinymce/tinymce-react";
 import useTheme from "@/context/ThemeProvider";
-import { createQuestion } from "@/lib/action/question.action";
+import { createQuestion, editQuestion } from "@/lib/action/question.action";
 import { usePathname, useRouter } from "next/navigation";
+import { QuestionProps } from "@/lib/action/shared.types";
 
-const Question = ({ author }: any) => {
+const Question = ({
+  type,
+  author,
+  title,
+  explanation,
+  tags,
+  questionId,
+}: QuestionProps) => {
   const { mode } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
@@ -34,9 +42,9 @@ const Question = ({ author }: any) => {
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: title || "",
+      explanation: explanation || "",
+      tags: tags || [],
     },
   });
 
@@ -44,13 +52,21 @@ const Question = ({ author }: any) => {
   async function onSubmit(values: z.infer<typeof questionSchema>) {
     setIsSubmitting(true);
     try {
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
-        path: pathname,
-        author: JSON.parse(author),
-      });
+      if (type === "Edit") {
+        await editQuestion({
+          _id: questionId!,
+          updatedTitle: values.title,
+          updatedContent: values.explanation,
+        });
+      } else {
+        await createQuestion({
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          path: pathname,
+          author: JSON.parse(author),
+        });
+      }
 
       router.push("/");
     } catch (error) {
@@ -180,7 +196,7 @@ const Question = ({ author }: any) => {
                       skin: mode === "dark" ? "oxide-dark" : "oxide",
                       content_css: mode === "dark" ? "dark" : "light",
                     }}
-                    initialValue=""
+                    initialValue={explanation || ""}
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
                   />
@@ -208,11 +224,13 @@ const Question = ({ author }: any) => {
                     onKeyDown={(e) => {
                       handleInputKeyDown(e, field);
                     }}
+                    disabled={type === "Edit"}
                   />
                 </FormControl>
                 <FormDescription className="body-regular mt-2.5 text-light-500">
-                  Add up to 3 tags to describe what your question is about. You
-                  need to press enter to add a tag.
+                  {type === "Edit"
+                    ? "You can not edit tags"
+                    : "Add up to 3 tags to describe what your question is about. You need to press enter to add a tag."}
                 </FormDescription>
 
                 {field.value.length > 0 && (
@@ -223,6 +241,7 @@ const Question = ({ author }: any) => {
                         tag={item}
                         field={field.value}
                         handleRemoveTag={handleRemoveTag}
+                        isEdited={type === "Edit"}
                       />
                     ))}
                   </div>
@@ -238,7 +257,13 @@ const Question = ({ author }: any) => {
             className="primary-gradient w-fit !text-light-900"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submiting" : "Submit"}
+            {type === "Edit"
+              ? isSubmitting
+                ? "Editing..."
+                : "Edit Question"
+              : isSubmitting
+                ? "Posting..."
+                : "Post Question"}
           </Button>
         </form>
       </Form>

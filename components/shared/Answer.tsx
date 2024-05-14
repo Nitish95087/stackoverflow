@@ -63,7 +63,7 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
 
   return (
     <div className="">
-      <div className="flex w-full flex-col gap-3 md:flex-row">
+      <div className="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <h4 className="paragraph-semibold text-dark400_light800">
           Write your answer here
         </h4>

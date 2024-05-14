@@ -12,8 +12,9 @@ import React from "react";
 
 const QuestoinDetail = async ({ params }: { params: any }) => {
   const questionId = params.questionId;
-
-  const questionDetail = await getQuestionDetail({ _id: questionId });
+  const questionDetail = await getQuestionDetail({
+    _id: questionId,
+  });
 
   const author = questionDetail.author;
   const { userId } = auth();
@@ -23,7 +24,6 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
   if (userId) {
     mongoUser = await getUserById({ userId });
   }
-
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-4">
@@ -46,7 +46,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
             downvotes={questionDetail.downvotes.length}
             hasUpVoted={questionDetail.upvotes.includes(mongoUser?._id)}
             hasDownVoted={questionDetail.downvotes.includes(mongoUser?._id)}
-            hasSaved={author.saved.includes(questionDetail._id)}
+            hasSaved={mongoUser.saved.includes(questionDetail._id)}
           />
         </div>
 
@@ -101,7 +101,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
 
       <Answer
         questionId={JSON.stringify(questionDetail._id)}
-        authorId={JSON.stringify(author._id)}
+        authorId={JSON.stringify(mongoUser._id)}
       />
     </div>
   );

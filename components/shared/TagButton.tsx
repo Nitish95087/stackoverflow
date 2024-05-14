@@ -1,18 +1,21 @@
 import React from "react";
 import Image from "next/image";
-import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 type Props = {
   tag: string;
   field: string[];
+  isEdited?: boolean;
   handleRemoveTag: (tag: string, field: any) => void;
 };
 
-const TagButton = ({ tag, field, handleRemoveTag }: Props) => {
+const TagButton = ({ tag, field, isEdited, handleRemoveTag }: Props) => {
+  console.log(isEdited);
   return (
-    <Badge
+    <Button
       key={tag}
       className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
+      disabled={isEdited}
     >
       {tag}
 
@@ -26,7 +29,7 @@ const TagButton = ({ tag, field, handleRemoveTag }: Props) => {
           handleRemoveTag(tag, field);
         }}
       />
-    </Badge>
+    </Button>
   );
 };
 

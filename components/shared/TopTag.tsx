@@ -9,7 +9,7 @@ const TopTag = async () => {
   return (
     <>
       <h3 className="h3-bold text-dark200_light900">Popular Tag</h3>
-      <div className="mt-2 flex flex-col gap-5">
+      <div className="mt-8 flex flex-col gap-5">
         {topTags.map((tag) => (
           <Link
             href={`/tags/${tag._id}`}

@@ -3,6 +3,7 @@ import Question from "@/database/question.model";
 import { connectToDB } from "../mongoose";
 import {
   DownVoteQuestionParams,
+  EditQuestionProps,
   GetQuestionDetailProps,
   TopPostsProps,
   UpVoteQuestionParams,
@@ -11,6 +12,7 @@ import {
 import { revalidatePath } from "next/cache";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
+import Answer from "@/database/answer.model";
 
 export const createQuestion = async (params: createQuestionParams) => {
   try {
@@ -92,7 +94,7 @@ export const getQuestionDetail = async ({ _id }: GetQuestionDetailProps) => {
       .populate({
         path: "author",
         model: User,
-        select: "_id clerkId name picture saved",
+        select: "_id clerkId name picture author",
       });
 
     return questionDetail;
@@ -173,6 +175,64 @@ export const topPosts = async (params: TopPostsProps) => {
       });
 
     return topPosts;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteQuestion = async ({
+  questionId,
+  path,
+}: {
+  questionId: string;
+  path: string;
+}) => {
+  try {
+    await connectToDB();
+
+    await Question.deleteOne({
+      _id: questionId,
+    });
+
+    // Note Delete all answer of this quesiton
+    await Answer.deleteMany({ question: questionId });
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getQuestionById = async ({ id }: { id: string }) => {
+  try {
+    await connectToDB();
+
+    const question = await Question.findOne({ _id: id }).populate({
+      path: "tags",
+      model: Tag,
+    });
+
+    return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const editQuestion = async ({
+  _id,
+  updatedTitle,
+  updatedContent,
+}: EditQuestionProps) => {
+  try {
+    await connectToDB();
+
+    await Question.findByIdAndUpdate(
+      { _id },
+      { title: updatedTitle, content: updatedContent },
+      { new: true }
+    );
   } catch (error) {
     console.log(error);
     throw error;

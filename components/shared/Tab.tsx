@@ -5,10 +5,18 @@ import { topPosts } from "@/lib/action/question.action";
 import { getTopUserAnswer } from "@/lib/action/answer.action";
 import AnswerCard from "../card/AnswerCard";
 import NoResult from "./NoResult";
+import { auth } from "@clerk/nextjs";
 
-const Tab = async ({ userId }: { userId: string }) => {
-  const topPost = await topPosts({ authorId: JSON.parse(userId) });
-  const topAnswer = await getTopUserAnswer({ userId: JSON.parse(userId) });
+const Tab = async ({
+  authorId,
+  isAuthor,
+}: {
+  authorId: string;
+  isAuthor: boolean;
+}) => {
+  const topPost = await topPosts({ authorId });
+  const topAnswer = await getTopUserAnswer({ userId: authorId });
+  const { userId } = auth();
 
   return (
     <Tabs defaultValue="top-posts">
@@ -16,7 +24,7 @@ const Tab = async ({ userId }: { userId: string }) => {
         <TabsTrigger value="top-posts">Top Posts</TabsTrigger>
         <TabsTrigger value="answers">Answers</TabsTrigger>
       </TabsList>
-      <TabsContent value="top-posts">
+      <TabsContent value="top-posts" className="mt-5">
         {topPost.length > 0 ? (
           <div className="flex flex-col gap-4">
             {topPost.map((item) => (
@@ -30,6 +38,7 @@ const Tab = async ({ userId }: { userId: string }) => {
                 views={item.views}
                 answers={item.answers}
                 createdAt={item.createdAt}
+                isAuthor={isAuthor}
               />
             ))}
           </div>
@@ -55,6 +64,8 @@ const Tab = async ({ userId }: { userId: string }) => {
                 author={answer.author}
                 upvotes={answer.upvotes}
                 createdAt={answer.createdAt}
+                userId={userId}
+                answerId={answer._id}
               />
             ))
           ) : (

@@ -2,6 +2,8 @@ import React from "react";
 import Metrix from "../shared/Metrix";
 import { formatNumber, getTimeAgo } from "@/lib/action/utils";
 import Link from "next/link";
+import EditDeletePost from "../shared/EditDeletePost";
+import { type } from "os";
 
 interface AnswerCardProps {
   _id: string;
@@ -14,6 +16,8 @@ interface AnswerCardProps {
   };
   upvotes: string[];
   createdAt: Date;
+  userId: string | null;
+  answerId: string;
 }
 
 const AnswerCard = ({
@@ -22,14 +26,20 @@ const AnswerCard = ({
   author,
   upvotes,
   createdAt,
+  userId,
+  answerId,
 }: AnswerCardProps) => {
   return (
     <div className="background-light900_dark200 flex flex-col gap-3 rounded-xl px-5 py-4 md:px-10 md:py-9">
-      <Link href={`/question/${_id}`}>
-        <h2 className="sm:h3-semibold base-semibold text-dark200_light900  flex-1">
-          {title}
-        </h2>
-      </Link>
+      <div className="flex items-start justify-between">
+        <Link href={`/question/${_id}`} className={`w-4/5 `}>
+          <h2 className="sm:h3-semibold base-semibold text-dark200_light900  flex-1">
+            {title}
+          </h2>
+        </Link>
+
+        {userId && <EditDeletePost id={answerId} type="Answer" />}
+      </div>
 
       <div className="flex flex-wrap items-start justify-between gap-2">
         <Metrix

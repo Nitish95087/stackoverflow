@@ -49,7 +49,9 @@ export const getAnswer = async (params: GetAnswerAuthorProps) => {
 
     const { questionId } = params;
 
-    const answer = await Answer.find({ question: questionId }).populate({
+    const answer = await Answer.find({
+      question: JSON.parse(questionId),
+    }).populate({
       path: "author",
       model: User,
       select: "_id clerkId name picture",
@@ -128,6 +130,25 @@ export const getTopUserAnswer = async ({ userId }: { userId: string }) => {
       .sort({ upvotes: -1 });
 
     return topAnswer;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteAnswer = async ({
+  _id,
+  path,
+}: {
+  _id: string;
+  path: string;
+}) => {
+  try {
+    await connectToDB();
+
+    await Answer.deleteOne({ _id });
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;

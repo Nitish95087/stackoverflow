@@ -14,7 +14,7 @@ interface AllAnswerProps {
 const AllAnswers = async (params: AllAnswerProps) => {
   const { questionId, userId } = params;
 
-  const answers = await getAnswer({ questionId: JSON.parse(questionId) });
+  const answers = await getAnswer({ questionId });
 
   return (
     <div className="flex flex-col gap-6">

@@ -121,3 +121,18 @@ export interface UrlQueryParams {
 export interface TopPostsProps {
   authorId: string;
 }
+
+export interface QuestionProps {
+  type?: string;
+  author: string;
+  title?: string;
+  explanation?: string;
+  tags?: string[];
+  questionId?: string;
+}
+
+export interface EditQuestionProps {
+  _id: string;
+  updatedTitle: string;
+  updatedContent: string;
+}
