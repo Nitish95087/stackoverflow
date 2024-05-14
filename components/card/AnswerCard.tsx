@@ -3,7 +3,6 @@ import Metrix from "../shared/Metrix";
 import { formatNumber, getTimeAgo } from "@/lib/action/utils";
 import Link from "next/link";
 import EditDeletePost from "../shared/EditDeletePost";
-import { type } from "os";
 
 interface AnswerCardProps {
   _id: string;
