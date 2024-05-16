@@ -7,8 +7,12 @@ import { TagsFilter } from "@/constants/filters";
 import { getAllTag } from "@/lib/action/tag.action";
 import React from "react";
 
-const Tags = async () => {
-  const tagCard = await getAllTag();
+const Tags = async ({ searchParams }: { searchParams: any }) => {
+  const { tagCard, isNext } = await getAllTag({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page,
+  });
 
   return (
     <div className="flex flex-col gap-3">
@@ -42,7 +46,10 @@ const Tags = async () => {
         </div>
       )}
 
-      <PaginationCard />
+      <PaginationCard
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        isNext={isNext}
+      />
     </div>
   );
 };

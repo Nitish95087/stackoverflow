@@ -6,7 +6,7 @@ import Filter from "@/components/shared/Filter";
 import JobCard from "@/components/card/JobCard";
 import PaginationCard from "@/components/shared/PaginationCard";
 
-const Jobs = () => {
+const Jobs = ({ searchParams }: { searchParams: any }) => {
   return (
     <div className="flex flex-col gap-3">
       <h1 className="h2-bold sm:h1-bold text-dark100_light900">Jobs</h1>
@@ -34,7 +34,10 @@ const Jobs = () => {
         ))}
       </div>
 
-      <PaginationCard />
+      <PaginationCard
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        isNext={false}
+      />
     </div>
   );
 };

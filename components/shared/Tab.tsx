@@ -65,7 +65,7 @@ const Tab = async ({
                 upvotes={answer.upvotes}
                 createdAt={answer.createdAt}
                 userId={userId}
-                answerId={answer._id}
+                answerId={JSON.stringify(answer._id)}
               />
             ))
           ) : (

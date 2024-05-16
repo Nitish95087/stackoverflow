@@ -40,12 +40,12 @@ const QuestionCard = ({
   return (
     <div className="card-wrapper flex min-h-[50px] flex-col gap-5 rounded-xl px-5 py-4 md:px-10 md:py-9">
       <div className="flex items-start justify-between gap-1">
-        <Link href={`/question/${_id}`} className="max-w-[80%]">
+        <Link href={`/question/${_id.toString()}`} className="max-w-[80%]">
           <h2 className="sm:h3-semibold base-semibold text-dark200_light900  flex-1">
             {title}
           </h2>
         </Link>
-        {isAuthor && <EditDeletePost id={_id} type="Question" />}
+        {isAuthor && <EditDeletePost id={_id.toString()} type="Question" />}
       </div>
 
       <div className="flex flex-wrap items-center justify-start gap-5">
@@ -89,7 +89,7 @@ const QuestionCard = ({
             imgUrl="/assets/icons/eye.svg"
             alt="view"
             value={formatNumber(views || 0)}
-            title="Votes"
+            title={views > 0 ? "Views" : "View"}
             isAuthor={false}
             textStyles="text-dark200_light900 body-regular"
           />

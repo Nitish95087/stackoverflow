@@ -37,7 +37,7 @@ const AnswerCard = ({
           </h2>
         </Link>
 
-        {userId && <EditDeletePost id={answerId} type="Answer" />}
+        {userId && <EditDeletePost id={JSON.parse(answerId)} type="Answer" />}
       </div>
 
       <div className="flex flex-wrap items-start justify-between gap-2">

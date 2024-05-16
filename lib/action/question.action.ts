@@ -4,6 +4,7 @@ import { connectToDB } from "../mongoose";
 import {
   DownVoteQuestionParams,
   EditQuestionProps,
+  GetAllQuestionProps,
   GetQuestionDetailProps,
   TopPostsProps,
   UpVoteQuestionParams,
@@ -13,6 +14,7 @@ import { revalidatePath } from "next/cache";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
 import Answer from "@/database/answer.model";
+import { FilterQuery } from "mongoose";
 
 export const createQuestion = async (params: createQuestionParams) => {
   try {
@@ -54,16 +56,51 @@ export const createQuestion = async (params: createQuestionParams) => {
   }
 };
 
-export const getAllQuestion = async () => {
+export const getAllQuestion = async (params: GetAllQuestionProps) => {
   try {
     await connectToDB();
 
-    const allQuestion = Question.find()
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+
+    // Calculate the number of posts to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+      default:
+        break;
+    }
+
+    const allQuestion = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
 
-    return allQuestion;
+    const totalQuestions = await Question.countDocuments(query);
+
+    const isNext = totalQuestions > skipAmount + allQuestion.length;
+
+    return { allQuestion, isNext };
   } catch (error) {
     console.log(error);
     throw error;

@@ -27,7 +27,7 @@ const UserCard = async ({ _id, clerkId, name, username, picture }: Props) => {
         </AvatarFallback>
       </Avatar>
 
-      <h2 className="h3-bold text-dark200_light900 line-clamp-1">{name}</h2>
+      <h2 className="h3-bold text-dark200_light900 ">{name}</h2>
       <p className="body-regular text-dark500_light500">@{username}</p>
 
       <div className="flex flex-wrap items-center gap-2">

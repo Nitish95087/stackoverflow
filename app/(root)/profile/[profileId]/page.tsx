@@ -93,7 +93,7 @@ const page = async ({ params }: { params: any }) => {
       <div className="">
         <h3 className="h3-semibold text-dark200_light900">Stats</h3>
         <div className="mt-5 grid grid-cols-1 gap-3 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          <div className="light-border background-light900_dark300 flex min-h-[150px] w-full flex-1 flex-col items-center justify-center gap-4 rounded-md border p-6 shadow-light-300 dark:shadow-dark-200">
+          <div className="light-border background-light900_dark300 flex  w-full flex-1  items-center justify-center gap-4 rounded-md border p-6 shadow-light-300 dark:shadow-dark-200">
             <p className="body-medium text-dark400_light700">
               {user?.saved.length} Questions
             </p>

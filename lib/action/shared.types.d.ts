@@ -110,6 +110,10 @@ export interface DownvoteAnswerProps {
 
 export interface GetSavedQuestionsProps {
   userId: string | null;
+  searchQuery: string;
+  filter: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export interface UrlQueryParams {
@@ -135,4 +139,11 @@ export interface EditQuestionProps {
   _id: string;
   updatedTitle: string;
   updatedContent: string;
+}
+
+export interface GetAllQuestionProps {
+  searchQuery: string;
+  filter: string;
+  page?: number;
+  pageSize?: number;
 }

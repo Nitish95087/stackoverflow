@@ -9,12 +9,15 @@ import { getSavedQuestions } from "@/lib/action/user.action";
 import { auth } from "@clerk/nextjs";
 import React from "react";
 
-const Collection = async () => {
+const Collection = async ({ searchParams }: { searchParams: any }) => {
   const { userId } = auth();
 
-  const savedQuestions = await getSavedQuestions({ userId });
-
-  console.log(savedQuestions);
+  const { savedQuestions, isNext } = await getSavedQuestions({
+    userId,
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page,
+  });
 
   return (
     <div className="flex flex-col gap-10">
@@ -56,7 +59,10 @@ const Collection = async () => {
         </div>
       )}
 
-      <PaginationCard />
+      <PaginationCard
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        isNext={isNext}
+      />
     </div>
   );
 };

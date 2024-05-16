@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { downvoteQuestion, upvoteQuestion } from "@/lib/action/question.action";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toggleSave } from "@/lib/action/user.action";
 import { downvoteAnswer, upvoteAnswer } from "@/lib/action/answer.action";
+import { viewQuestion } from "@/lib/action/interaction.action";
+import { useToast } from "../ui/use-toast";
 
 interface VotesProps {
   type: string;
@@ -29,11 +31,15 @@ const Votes = ({
   hasSaved,
 }: VotesProps) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const handleSave = async () => {
     if (!userId) {
-      alert("Please Log In");
-      return;
+      return toast({
+        title: "Please Log In",
+        description: "You must be loged in to perform this action",
+      });
     }
 
     await toggleSave({
@@ -42,12 +48,19 @@ const Votes = ({
       hasSaved,
       path: pathname,
     });
+
+    toast({
+      title: `Saved ${!hasSaved ? "Successfull" : "Removed"}`,
+      variant: !hasSaved ? "default" : "destructive",
+    });
   };
 
   const handleVote = async (action: string) => {
     if (!userId) {
-      alert("Please Log In");
-      return;
+      return toast({
+        title: "Please Log In",
+        description: "You must be loged in to perform this action",
+      });
     }
 
     if (action === "upvote") {
@@ -68,6 +81,11 @@ const Votes = ({
           path: pathname,
         });
       }
+
+      toast({
+        title: `Upvoted ${!hasUpVoted ? "Successfull" : "Removed"}`,
+        variant: !hasUpVoted ? "default" : "destructive",
+      });
     } else if (action === "downvote") {
       if (type === "Question") {
         await downvoteQuestion({
@@ -86,8 +104,20 @@ const Votes = ({
           path: pathname,
         });
       }
+
+      toast({
+        title: `Downvoted ${!hasDownVoted ? "Successfull" : "Removed"}`,
+        variant: !hasDownVoted ? "default" : "destructive",
+      });
     }
   };
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: JSON.parse(id),
+      userId: userId ? JSON.parse(userId) : undefined,
+    });
+  }, [id, userId, pathname, router]);
 
   return (
     <div className="flex gap-2">

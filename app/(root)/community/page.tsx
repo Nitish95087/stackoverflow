@@ -7,8 +7,12 @@ import { UserFilters } from "@/constants/filters";
 import { getAllUser } from "@/lib/action/user.action";
 import React from "react";
 
-const Community = async () => {
-  const usersCard = await getAllUser();
+const Community = async ({ searchParams }: { searchParams: any }) => {
+  const usersCard = await getAllUser({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page,
+  });
 
   return (
     <div className="flex flex-col gap-3">
@@ -22,9 +26,9 @@ const Community = async () => {
         <Filter trigger="Select a Filter" content={UserFilters} />
       </div>
 
-      {usersCard.length > 0 ? (
+      {usersCard.users.length > 0 ? (
         <div className="my-5 grid w-full grid-cols-1 gap-5  sm:grid-cols-2 lg:grid-cols-3">
-          {usersCard.map((item) => (
+          {usersCard.users.map((item) => (
             <UserCard
               key={item._id}
               _id={item._id}
@@ -44,7 +48,10 @@ const Community = async () => {
         </div>
       )}
 
-      <PaginationCard />
+      <PaginationCard
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        isNext={usersCard.isNext}
+      />
     </div>
   );
 };

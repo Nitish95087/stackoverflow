@@ -18,10 +18,12 @@ import { createAnswer } from "@/lib/action/answer.action";
 import { AnswerProps } from "@/lib/action/shared.types";
 import { usePathname } from "next/navigation";
 import { answerSchema } from "@/lib/validation";
+import { useToast } from "../ui/use-toast";
 
 const Answer = ({ questionId, authorId }: AnswerProps) => {
   const { mode } = useTheme();
   const pathname = usePathname();
+  const { toast } = useToast();
 
   const editorRef = useRef(null);
 
@@ -61,6 +63,15 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
     }
   }
 
+  const handleAIAnswer = () => {
+    if (!authorId) {
+      toast({
+        title: "Please Log In",
+        description: "You must be log in to perform this action",
+      });
+    }
+  };
+
   return (
     <div className="">
       <div className="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -68,7 +79,10 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
           Write your answer here
         </h4>
 
-        <Button className="background-light800_dark400 text-primary-500 dark:text-primary-500">
+        <Button
+          className="background-light800_dark400 text-primary-500 dark:text-primary-500"
+          onClick={handleAIAnswer}
+        >
           <Image
             src={"/assets/icons/stars.svg"}
             alt="star"

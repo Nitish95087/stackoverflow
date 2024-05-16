@@ -10,8 +10,12 @@ import { getAllQuestion } from "@/lib/action/question.action";
 import Link from "next/link";
 import React from "react";
 
-const page = async () => {
-  const cardQuestions = await getAllQuestion();
+const page = async ({ searchParams }: { searchParams: any }) => {
+  const cardQuestions = await getAllQuestion({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+    page: searchParams.page,
+  });
 
   return (
     <div className="flex flex-col gap-10">
@@ -43,9 +47,9 @@ const page = async () => {
         <RenderFilter />
       </div>
       <div className="">
-        {cardQuestions.length > 0 ? (
+        {cardQuestions.allQuestion.length > 0 ? (
           <div className="flex flex-col gap-5">
-            {cardQuestions.map((item) => {
+            {cardQuestions.allQuestion.map((item) => {
               return (
                 <QuestionCard
                   key={item._id}
@@ -73,7 +77,10 @@ const page = async () => {
         )}
       </div>
 
-      <PaginationCard />
+      <PaginationCard
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        isNext={cardQuestions.isNext}
+      />
     </div>
   );
 };

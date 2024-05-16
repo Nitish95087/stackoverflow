@@ -1,8 +1,7 @@
 export const HomePageFilters = [
   { id: 0, value: "newest", label: "Newest" },
-  { id: 1, value: "recommended", label: "Recommended" },
-  { id: 2, value: "frequent", label: "Frequent" },
-  { id: 3, value: "unanswered", label: "Unanswered" },
+  { id: 1, value: "frequent", label: "Frequent" },
+  { id: 2, value: "unanswered", label: "Unanswered" },
 ];
 
 export const QuestionFilters = [

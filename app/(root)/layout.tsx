@@ -3,6 +3,7 @@ import LeftSideBar from "@/components/shared/sidebar/LeftSideBar";
 import RightSideBar from "@/components/shared/sidebar/RightSideBar";
 import { auth } from "@clerk/nextjs";
 import React from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { userId } = auth();
@@ -18,6 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </section>
         <RightSideBar />
       </div>
+      <Toaster />
     </main>
   );
 };

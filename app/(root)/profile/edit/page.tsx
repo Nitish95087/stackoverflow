@@ -1,18 +1,21 @@
 import EditProfile from "@/components/shared/EditProfile";
 import { getUserById } from "@/lib/action/user.action";
 import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
   const { userId } = auth();
+
+  if (!userId) {
+    redirect("/sign-in");
+  }
 
   let mongoUser;
 
   if (userId) {
     mongoUser = await getUserById({ userId });
   }
-
-  console.log(mongoUser);
 
   return (
     <div>

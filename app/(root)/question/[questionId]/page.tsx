@@ -46,7 +46,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
             downvotes={questionDetail.downvotes.length}
             hasUpVoted={questionDetail.upvotes.includes(mongoUser?._id)}
             hasDownVoted={questionDetail.downvotes.includes(mongoUser?._id)}
-            hasSaved={mongoUser.saved.includes(questionDetail._id)}
+            hasSaved={mongoUser?.saved.includes(questionDetail._id) || false}
           />
         </div>
 
@@ -101,7 +101,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
 
       <Answer
         questionId={JSON.stringify(questionDetail._id)}
-        authorId={JSON.stringify(mongoUser._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
       />
     </div>
   );
