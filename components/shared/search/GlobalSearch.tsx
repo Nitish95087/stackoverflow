@@ -18,6 +18,27 @@ const GlobalSearch = () => {
   const [search, setSearch] = useState(query || "");
 
   useEffect(() => {
+    const handleOutsideClick = (event: any) => {
+      if (
+        searchContainerRef.current &&
+        // @ts-ignore
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+        setSearch("");
+      }
+    };
+
+    setIsOpen(false);
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [pathname]);
+
+  useEffect(() => {
     const delayDebounceFunction = setTimeout(() => {
       if (search) {
         const newUrl = formUrlQuery({
@@ -61,6 +82,7 @@ const GlobalSearch = () => {
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
+              if (!isOpen) setIsOpen(true);
               if (e.target.value === "" && isOpen) {
                 setIsOpen(false);
               }

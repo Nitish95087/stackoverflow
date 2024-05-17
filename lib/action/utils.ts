@@ -1,5 +1,6 @@
 import qs from "query-string";
 import { UrlQueryParams } from "./shared.types";
+import { BADGE_CRITERIA } from "@/constants";
 
 export function getTimeAgo(joined: Date): string {
   const now = new Date();
@@ -99,4 +100,39 @@ export const removeKeysFromQuery = ({
       skipNull: true,
     }
   );
+};
+
+interface BadgeParamProps {
+  criteria: {
+    type: keyof typeof BADGE_CRITERIA;
+    count: number;
+  }[];
+}
+
+interface BadgeCount {
+  GOLD: number;
+  SILVER: number;
+  BRONZE: number;
+}
+
+export const assignBadge = ({ criteria }: BadgeParamProps) => {
+  const badgeCounts: BadgeCount = {
+    GOLD: 0,
+    SILVER: 0,
+    BRONZE: 0,
+  };
+
+  criteria.forEach((item) => {
+    const { type, count } = item;
+
+    const badgeLevels: any = BADGE_CRITERIA[type];
+
+    Object.keys(badgeLevels).forEach((level: any) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level as keyof BadgeCount] += 1;
+      }
+    });
+  });
+
+  return badgeCounts;
 };

@@ -11,17 +11,31 @@ import {
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 import User from "@/database/user.model";
+import Interaction from "@/database/interaction.model";
 
 export const createAnswer = async ({ params, path }: CreateAnswerProps) => {
   try {
     await connectToDB();
 
+    const { question, author } = params;
+
     const newAnswer = await Answer.create(params);
 
     //   push answer newAnswer key to Question document
-    await Question.findByIdAndUpdate(params.question, {
+    const questionObject = await Question.findByIdAndUpdate(params.question, {
       $push: { answers: newAnswer._id },
     });
+
+    // Todo Add interaction..
+    await Interaction.create({
+      user: author,
+      action: "answer",
+      question,
+      answer: newAnswer._id,
+      tags: questionObject,
+    });
+
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -83,7 +97,22 @@ export const upvoteAnswer = async (params: UpvoteAnswerProps) => {
       updateQuery = { $addToSet: { upvotes: userId } };
     }
 
-    await Answer.findByIdAndUpdate(id, updateQuery, { new: true });
+    const answer = await Answer.findByIdAndUpdate(id, updateQuery, {
+      new: true,
+    });
+
+    if (!answer) {
+      throw new Error("Answer not found");
+    }
+
+    // Increment author's reputation
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasUpVoted ? -2 : 2 },
+    });
+
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasUpVoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -111,7 +140,22 @@ export const downvoteAnswer = async (params: DownvoteAnswerProps) => {
       updateQuery = { $addToSet: { downvotes: userId } };
     }
 
-    await Answer.findByIdAndUpdate(id, updateQuery, { new: true });
+    const answer = await Answer.findByIdAndUpdate(id, updateQuery, {
+      new: true,
+    });
+
+    if (!answer) {
+      throw new Error("Answer not found");
+    }
+
+    // Icrement author's reputation
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasDownVoted ? -2 : 2 },
+    });
+
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasDownVoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -146,7 +190,18 @@ export const deleteAnswer = async ({
   try {
     await connectToDB();
 
-    await Answer.deleteOne({ _id });
+    const answer = await Answer.findById({ _id });
+
+    if (!answer) {
+      throw new Error("Answer not found");
+    }
+
+    await answer.deleteOne({ _id });
+    await Question.updateMany(
+      { _id: answer.question },
+      { $pull: { answers: _id } }
+    );
+    await Interaction.deleteMany({ answer: _id });
 
     revalidatePath(path);
   } catch (error) {

@@ -15,6 +15,7 @@ import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
 import Answer from "@/database/answer.model";
 import { FilterQuery } from "mongoose";
+import Interaction from "@/database/interaction.model";
 
 export const createQuestion = async (params: createQuestionParams) => {
   try {
@@ -48,6 +49,17 @@ export const createQuestion = async (params: createQuestionParams) => {
     await Question.findByIdAndUpdate(question._id, {
       $push: { tags: { $each: tagDocuments } },
     });
+
+    await Interaction.create({
+      user: author,
+      action: "ask-question",
+      question: question._id,
+      tags: tagDocuments,
+    });
+
+    // Increment author's reputation by +5 for creating a question
+
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -160,7 +172,22 @@ export const upvoteQuestion = async (params: UpVoteQuestionParams) => {
       updateQuery = { $addToSet: { upvotes: userId } };
     }
 
-    await Question.findByIdAndUpdate(id, updateQuery, { new: true });
+    const question = await Question.findByIdAndUpdate(id, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    // Increment author's reputation
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasUpVoted ? -1 : 1 },
+    });
+
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasUpVoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -188,7 +215,22 @@ export const downvoteQuestion = async (params: DownVoteQuestionParams) => {
       updateQuery = { $addToSet: { downvotes: userId } };
     }
 
-    await Question.findByIdAndUpdate(id, updateQuery, { new: true });
+    const question = await Question.findByIdAndUpdate(id, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("Question not found");
+    }
+
+    // Increment author's repetation
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasDownVoted ? -2 : 2 },
+    });
+
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasDownVoted ? -10 : 10 },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -234,6 +276,12 @@ export const deleteQuestion = async ({
 
     // Note Delete all answer of this quesiton
     await Answer.deleteMany({ question: questionId });
+    await Interaction.deleteMany({ question: questionId });
+    await Tag.updateMany(
+      { questions: questionId },
+      { $pull: { questions: questionId } }
+    );
+
     revalidatePath(path);
   } catch (error) {
     console.log(error);
