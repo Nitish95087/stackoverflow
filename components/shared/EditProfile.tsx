@@ -135,7 +135,6 @@ const EditProfile = (params: EditProfileProps) => {
             <FormItem>
               <FormLabel className="text-dark200_light900">Bio</FormLabel>
               <FormControl className="background-light800_darkgradient rounded-xl px-4 shadow-light-300 dark:shadow-none">
-                {/* <Input {...field} className="no-focus text-dark400_light700" /> */}
                 <Textarea
                   {...field}
                   className="no-focus text-dark400_light700"

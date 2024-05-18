@@ -24,6 +24,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
   if (userId) {
     mongoUser = await getUserById({ userId });
   }
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-4">
@@ -102,6 +103,7 @@ const QuestoinDetail = async ({ params }: { params: any }) => {
       <Answer
         questionId={JSON.stringify(questionDetail._id)}
         authorId={JSON.stringify(mongoUser?._id)}
+        questionContent={questionDetail.title}
       />
     </div>
   );

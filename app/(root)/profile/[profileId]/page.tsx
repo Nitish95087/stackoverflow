@@ -6,15 +6,22 @@ import { Button } from "@/components/ui/button";
 import { getUserInfo } from "@/lib/action/user.action";
 import { formatJoinedDate } from "@/lib/action/utils";
 import { auth } from "@clerk/nextjs";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "User",
+  description: "User",
+};
 
 const page = async ({ params }: { params: any }) => {
   const { user, totalQuestions, totalAnswers, badgeCount, reputation } =
     await getUserInfo({ userId: params.profileId });
 
   const { userId } = auth();
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col items-start gap-5 md:flex-row">

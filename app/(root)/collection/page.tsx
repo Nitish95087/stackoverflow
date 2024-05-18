@@ -7,7 +7,13 @@ import LocalSearch from "@/components/shared/search/LocalSearch";
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/action/user.action";
 import { auth } from "@clerk/nextjs";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Saved Questions",
+  description: "Find saved questions here",
+};
 
 const Collection = async ({ searchParams }: { searchParams: any }) => {
   const { userId } = auth();

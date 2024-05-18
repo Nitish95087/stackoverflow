@@ -20,8 +20,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Stack Overflow",
+  title: "Stack Overflow ",
   description: "A place for developers to ask questions and find answers.",
+  icons: { icon: "/assets/images/site-logo.svg" },
 };
 
 export default function RootLayout({

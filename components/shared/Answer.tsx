@@ -19,8 +19,9 @@ import { AnswerProps } from "@/lib/action/shared.types";
 import { usePathname } from "next/navigation";
 import { answerSchema } from "@/lib/validation";
 import { useToast } from "../ui/use-toast";
+// import { getAIAnswer } from "@/app/api/chatgpt/route";
 
-const Answer = ({ questionId, authorId }: AnswerProps) => {
+const Answer = ({ questionContent, questionId, authorId }: AnswerProps) => {
   const { mode } = useTheme();
   const pathname = usePathname();
   const { toast } = useToast();
@@ -28,6 +29,7 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
   const editorRef = useRef(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAI, setIsSubmittingAI] = useState(false);
 
   const form = useForm<z.infer<typeof answerSchema>>({
     resolver: zodResolver(answerSchema),
@@ -63,12 +65,50 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
     }
   }
 
-  const handleAIAnswer = () => {
+  const handleAIAnswer = async () => {
     if (!authorId) {
-      toast({
+      return toast({
         title: "Please Log In",
         description: "You must be log in to perform this action",
       });
+    }
+
+    try {
+      setIsSubmittingAI(true);
+
+      // await getAIAnswer({ question: "How to center a div" });
+
+      // const response = await fetch(
+      //   `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+      //   {
+      //     method: "POST",
+      //     body: JSON.stringify({ question: "How to center a div" }),
+      //   }
+      // );
+
+      // const aiAnswer = await response.json();
+      // console.log("API Response:", aiAnswer);
+
+      // Convert plain text to HTML formate
+
+      // const formattedAnswer = aiAnswer.reply;
+
+      // if (editorRef.current) {
+      //   const editor = editorRef.current as any;
+      //   editor.setContent(formattedAnswer);
+      // }
+
+      // Toast...
+      toast({
+        title: `Can't Generate AI Answer`,
+        description: "OpenAI free trail completed",
+        variant: "default",
+      });
+    } catch (error) {
+      console.log("Error fetching from local api", error);
+      throw error;
+    } finally {
+      setIsSubmittingAI(false);
     }
   };
 
@@ -89,7 +129,9 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
             width={20}
             height={20}
           />
-          <span className="ml-2">Gererate AI Answer</span>
+          <span className="ml-2">
+            {isSubmittingAI ? "Generating..." : "Generate AI answer"}
+          </span>
         </Button>
       </div>
 
@@ -137,7 +179,6 @@ const Answer = ({ questionId, authorId }: AnswerProps) => {
                       skin: mode === "dark" ? "oxide-dark" : "oxide",
                       content_css: mode === "dark" ? "dark" : "light",
                     }}
-                    initialValue=""
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
                   />

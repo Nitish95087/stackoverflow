@@ -9,6 +9,7 @@ export default authMiddleware({
     "/tags",
     "/tags/:tagId",
     "/profile/:profileId",
+    "/favicon.ico",
     "/assets/icons/account.svg",
     "/assets/icons/arrow-left.svg",
     "/assets/icons/arrow-right.svg",
@@ -58,7 +59,7 @@ export default authMiddleware({
     "/assets/icons/users.svg",
     "/assets/images/site-logo.svg",
   ],
-  ignoredRoutes: ["/api/webhook"],
+  ignoredRoutes: ["/api/webhook", "/api/chatgpt"],
 });
 
 export const config = {

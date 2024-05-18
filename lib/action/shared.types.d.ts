@@ -86,6 +86,7 @@ export interface CreateAnswerProps {
 export interface AnswerProps {
   authorId: string;
   questionId: string;
+  questionContent: string;
 }
 
 export interface GetAnswerAuthorProps {

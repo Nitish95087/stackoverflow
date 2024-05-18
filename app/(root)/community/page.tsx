@@ -5,7 +5,14 @@ import PaginationCard from "@/components/shared/PaginationCard";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import { UserFilters } from "@/constants/filters";
 import { getAllUser } from "@/lib/action/user.action";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Commnunity",
+  description:
+    "StackOverflow is a community of 1, 32342332+ developers. Join us.",
+};
 
 const Community = async ({ searchParams }: { searchParams: any }) => {
   const usersCard = await getAllUser({
